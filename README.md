@@ -1,69 +1,98 @@
 # Unlock the App
 
-Unlock the App is a JavaFX application that uses image classification to generate and validate a pin for unlocking purposes. The application captures live camera feed, processes the images using a TensorFlow model, and updates the GUI accordingly.
+Unlock the App is a JavaFX application that uses image classification to generate and validate a PIN for unlocking purposes. The application captures live camera feed, processes the images using a TensorFlow model, and updates the GUI accordingly.
 
 ## 🔎 Existing Code
 
 ### Unlock.java
 
-The `Unlock` class controls the locking/unlocking mechanism flow, handles predicted classes, displays user responses, and manages the updating timeline.
+The `Unlock` class controls the locking and unlocking flow of the application.  
+It processes predicted classes from the TensorFlow model, updates the user PIN, displays feedback messages, and manages the timeline responsible for updating predictions and UI responses.
 
-**Suggested Modifications and New Features:**
+**Implemented Features:**
 
-* Allow configuration of confidence score thresholds.
+* Handles prediction results from the image classification model.
+* Updates the user PIN dynamically based on predicted classes.
+* Manages the unlock validation process.
+* Controls the timeline responsible for periodic prediction updates.
+
+---
 
 ### LockScene.java
 
-The `LockScene` class represents the initial "locked" state of the application and provides features like displaying the camera feed, loading animations, and showing user responses.
+The `LockScene` class represents the locked state of the application.  
+It displays the camera feed, loading animations, and feedback messages while the user is entering the PIN using image predictions.
 
-**Suggested Modifications and New Features:**
+**Implemented Features:**
 
-* Personalize the locked interface with custom backgrounds or themes.
-* Display countdown or status updates based on pin entry progress.
+* Displays the live camera feed for gesture/image recognition.
+* Shows loading animations during initialization.
+* Provides visual feedback while the user PIN is being entered.
+* Maintains the locked interface until the correct PIN is entered.
+
+---
 
 ### MainScene.java
 
-The `MainScene` class sets up the main scene of the application. This includes components like the validation label and action buttons.
+The `MainScene` class initializes the main user interface and manages core UI components used during the unlock process.
 
-**Suggested Modifications and New Features:**
+**Implemented Features:**
 
-* Introduce robust error handling and user-friendly messages.
-* Allow users to toggle camera feed display.
-* Implement features to customize UI elements like button colors and label fonts.
+* Displays validation messages to inform users about the unlock status.
+* Provides buttons and UI components for interaction.
+* Updates UI elements dynamically based on application state.
+
+---
 
 ### Loading.java
 
-The `Loading` class manages the loading animations and labels shown during camera initialization or data processing.
+The `Loading` class manages loading animations and labels that appear while the application initializes the camera or processes classification results.
 
-**Suggested Modifications and New Features:**
+**Implemented Features:**
 
-* Introduce different loading animations for variety.
-* Display a loading percentage or estimated time remaining.
-* Implement a retry or cancel mechanism for prolonged loading times.
+* Displays loading animations during system initialization.
+* Updates loading labels to inform the user about the current status.
 
-## ✅ TO DO: AppLogic.java
+---
 
-The `AppLogic` class manages the logic behind pin creation, validation, and user interactions based on the predicted class from the image classification results.
+## ✅ Implemented Logic: AppLogic.java
 
-Implement the following methods in `AppLogic.java` to incorporate your Teachable Machine model in the app.
+The `AppLogic` class manages the core logic of the application, including PIN generation, PIN validation, and processing user input based on predicted classes from the image classification model.
 
-`createUserPin(String predictedClass)`
+### Implemented Methods
 
-* Based on the `predictedClass`, append the digit to the user's PIN.
-* Return the updated user PIN as a string.
+#### `createUserPin(String predictedClass)`
 
-`checkPinLength()`
+Appends the predicted digit to the current user PIN based on the predicted class from the model and returns the updated PIN.
 
-* Check the length of the `user` attribute.
-* Return `true` if the length is equal to 4, otherwise return `false`.
+#### `checkPinLength()`
 
-`getPinStatus(String userPin)`
+Checks whether the user PIN has reached the required length (4 digits).
 
-* Compare `userPin` with the stored `pin`.
-* Return `"correct"` if the PINs match.
-* Return `"incorrect"` if they don't match.
+Returns:
+* `true` if the PIN length is 4  
+* `false` otherwise
 
-`createRandomPin()`
+#### `getPinStatus(String userPin)`
 
-* Implement logic to generate a random 4-digit PIN between 1000 and 9999.
-* Return the generated PIN as a string.
+Compares the user PIN with the stored generated PIN.
+
+Returns:
+* `"correct"` if the PIN matches  
+* `"incorrect"` if the PIN does not match
+
+#### `createRandomPin()`
+
+Generates a random 4-digit PIN between **1000 and 9999** that will be used as the authentication PIN.
+
+Returns the generated PIN as a string.
+
+---
+
+## ⚙️ Technologies Used
+
+* Java
+* JavaFX
+* TensorFlow
+* Teachable Machine
+* Webcam image capture
